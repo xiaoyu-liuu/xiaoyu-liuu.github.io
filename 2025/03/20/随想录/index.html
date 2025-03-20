@@ -13,7 +13,7 @@
 
 
 
-<title>Hello World | note</title>
+<title>随想录学习记录 | note</title>
 
 
 
@@ -196,7 +196,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Hello World</h1>
+            <h1 class="post-title">随想录学习记录</h1>
             
                 <div class="post-meta">
                     
@@ -205,28 +205,54 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">March 19, 2025&nbsp;&nbsp;19:27:19</a>
+                        Date: <a href="#">March 20, 2025&nbsp;&nbsp;20:27:14</a>
                         </span>
                     
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%AD%A6%E4%B9%A0%E8%AE%B0%E5%BD%95/">学习记录</a>
+                            
+                        </span>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+            <h3 id="1-动态规划"><a href="#1-动态规划" class="headerlink" title="1. 动态规划"></a>1. 动态规划</h3><ul>
+<li><p><strong>01背包(每个元素只能放入一次)</strong></p>
+<p>  设置一个dp[i][j]，i表示物品，j表示背包的容量。首先是初始化，当j为0，背包什么都背不下，当然都是0。然后就是遍历求解各个位置上的值。</p>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[i][j] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][j], dp[i - <span class="number">1</span>][j - weight[i]] + value[i]);</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>  值就是不放物品i的最大价值和放上物品i的最大价值的比较。</p>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; weight.<span class="built_in">size</span>(); i++) &#123; <span class="comment">// 遍历科研物品</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j = <span class="number">0</span>; j &lt;= bagweight; j++) &#123; <span class="comment">// 遍历行李箱容量</span></span><br><span class="line">        <span class="keyword">if</span> (j &lt; weight[i]) dp[i][j] = dp[i - <span class="number">1</span>][j]; <span class="comment">// 如果装不下这个物品,那么就继承dp[i - 1][j]的值</span></span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            dp[i][j] = <span class="built_in">max</span>(dp[i - <span class="number">1</span>][j], dp[i - <span class="number">1</span>][j - weight[i]] + value[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">cout &lt;&lt; dp[n - <span class="number">1</span>][bagweight] &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p><strong>01背包（滚动数组）</strong></p>
+<p>  就是压缩状态转移方程。可以发现如果把dp[i - 1]那一层拷贝到dp[i]上，表达式完全可以是：</p>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[i][j] = <span class="built_in">max</span>(dp[i][j], dp[i][j - weight[i]] + value[i]);</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>  与其把dp[i - 1]这一层拷贝到dp[i]上，不如只用一个一维数组了，只用dp[j]（一维数组，也可以理解是一个滚动数组）。这就是滚动数组的由来，需要满足的条件是上一层可以重复利用，直接拷贝到当前层。</p>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dp[j] = <span class="built_in">max</span>(dp[j], dp[j - weight[i]] + value[i]);</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>  不同是，此时需要倒序遍历j，是为了避免多次放入前一个物品。因为之前是左上角，本来就是避免了这个问题，但是现在是和当前复制过的作比较，前面已经变化了的话，dp[j - weight[i]]就跟着变了，不合理。所以需要从后往前遍历。</p>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 外层循环遍历每个类型的研究材料</span></span><br><span class="line"><span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; M; ++i) &#123;</span><br><span class="line">    <span class="comment">// 内层循环从 N 空间逐渐减少到当前研究材料所占空间</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = N; j &gt;= costs[i]; --j) &#123;</span><br><span class="line">        <span class="comment">// 考虑当前研究材料选择和不选择的情况，选择最大值</span></span><br><span class="line">        dp[j] = <span class="built_in">max</span>(dp[j], dp[j - costs[i]] + values[i]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 输出dp[N]，即在给定 N 行李空间可以携带的研究材料最大价值</span></span><br><span class="line">cout &lt;&lt; dp[N] &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
+
+<p>  <strong>类似的问题：</strong></p>
+<ul>
+<li>分割等和子集（背包容量sum&#x2F;2得装满，价值等于重量，最大价值为sum&#x2F;2）。</li>
+</ul>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dp[j] = <span class="built_in">max</span>(dp[j], dp[j - nums[i]] + nums[i]); </span><br><span class="line"><span class="keyword">if</span>(dp[target]==target) <span class="keyword">return</span> <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>最后一块石头的重量II（和上面的差不多，尽量让石头分成两堆，一堆尽量是sum&#x2F;2，即能装多少装多少）</li>
+</ul>
+  <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dp[j] = <span class="built_in">max</span>(dp[j], dp[j - stones[i]] + stones[i]);</span><br><span class="line"><span class="keyword">return</span> sum - dp[target] - dp[target];</span><br></pre></td></tr></table></figure>
+
+</li>
+<li></li>
+</ul>
 
         </div>
 
@@ -241,7 +267,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://xiaoyu-liuu.github.io/2025/03/19/hello-world/">http://xiaoyu-liuu.github.io/2025/03/19/hello-world/</a></span>
+                        <span><a href="http://xiaoyu-liuu.github.io/2025/03/20/%E9%9A%8F%E6%83%B3%E5%BD%95/">http://xiaoyu-liuu.github.io/2025/03/20/%E9%9A%8F%E6%83%B3%E5%BD%95/</a></span>
                     </p>
                 
                 
@@ -264,6 +290,12 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
+                    
+                        <a href="/tags/c/"># c++</a>
+                    
+                        <a href="/tags/node/"># node</a>
+                    
+                        
                 </span>
             </div>
             <div>
@@ -274,8 +306,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2025/03/19/C-%E5%9F%BA%E7%A1%80/">C++基础</a>
             
+            <a class="next" rel="next" href="/2025/03/19/%E5%AD%A6%E4%B9%A0%E8%AE%A1%E5%88%92/">C++基础</a>
             
         </section>
 
