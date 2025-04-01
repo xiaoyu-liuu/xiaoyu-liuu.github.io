@@ -225,10 +225,15 @@
 </code></pre>
 <p>出现问题：</p>
 <ul>
-<li>安装界面显示不全。<br>  解决：Ctrl + Alt + T打开终端，输入以下命令：xrandr -s 16*9。</li>
-<li>无法联网<br>  解决：进入软件卸载界面进行修复就行。</li>
+<li>安装界面显示不全。<br>解决：Ctrl + Alt + T打开终端，输入以下命令：xrandr -s 16*9。</li>
+<li>无法联网<br>解决：进入软件卸载界面进行修复就行。</li>
 </ul>
-<h3 id="2-安装"><a href="#2-安装" class="headerlink" title="2. 安装"></a>2. 安装</h3>
+<h3 id="2-muduo安装"><a href="#2-muduo安装" class="headerlink" title="2. muduo安装"></a>2. muduo安装</h3><p>​	安装boost库，然后安装muduo文件，这里需要从github上下载，速度很慢，所以增加一个<code>gitclone.com</code>前缀，即<code>https://github.com/</code>修改为<code>https://gitclone.com/github.com/</code>就可以加速。显示权限不足时就可以加一个sudo就行了。</p>
+<p>​	编写文件进行测试时，使用<code>nano hello.cpp</code>命令，创建cpp文件，然后编译<code>g++ -o hello hello.cpp</code>，运行可执行文件<code>./hello</code>来得到结果。</p>
+<h3 id="3-json安装、Redis、Mysql、SSH安装"><a href="#3-json安装、Redis、Mysql、SSH安装" class="headerlink" title="3.json安装、Redis、Mysql、SSH安装"></a>3.json安装、Redis、Mysql、SSH安装</h3><p>​	确保后两个处于可远程使用。端口不要随便改。</p>
+<p>​	重启mysql<code>systemctl restart  mysql</code>重启Redis<code>service redis restart</code>，查看端口情况<code>sudo netstat -talnp</code>。</p>
+<h3 id="4-windows-vscode配置远程Linux开发环境"><a href="#4-windows-vscode配置远程Linux开发环境" class="headerlink" title="4.windows+vscode配置远程Linux开发环境"></a>4.<strong>windows+vscode配置远程Linux开发环境</strong></h3><p>​	vscode运行cpp代码，调试中发现会产生错误，改正方法是将tasks.json文件中的”command”: “&#x2F;usr&#x2F;bin&#x2F;g++”,从gcc改为g++。</p>
+<h3 id="5-CMakeLists-txt"><a href="#5-CMakeLists-txt" class="headerlink" title="5.CMakeLists.txt"></a>5.CMakeLists.txt</h3>
         </div>
 
         
